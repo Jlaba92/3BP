@@ -318,8 +318,8 @@ def add_tuples(tuple: tuple) -> tuple:
 
 
 def main(
-    width: int = typer.Option(800, help="Width of the screen"),
-    height: int = typer.Option(600, help="Height of the screen"),
+    width: int = typer.Option(1920, help="Width of the screen"),
+    height: int = typer.Option(1080, help="Height of the screen"),
     max_bodies: int = typer.Option(
         10, help="Maximum number of bodies to had to the simulation."
     ),

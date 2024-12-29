@@ -347,7 +347,7 @@ def main(
     side = 200
     x = np.sqrt(side**2 - (side / 2) ** 2)
     initial_x = width / 2 - side / 2
-    initial_y = 100
+    initial_y = 1
 
     # INITIAL BODIES
     body1 = Body(

@@ -1,8 +1,10 @@
-# Written by Fernando Cortes
-# Modified - Traces by ChatGPT and Joseph LaBarbera
+#Written by Fernando Cortes
+#Modified - Traces by ChatGPT and Joseph LaBarbera
+
 
 import json
 import os
+from turtle import Screen
 import pygame
 import math
 import numpy as np
@@ -339,7 +341,6 @@ def add_tuples(tuple: tuple) -> tuple:
             odd += tuple[i]
     return (even, odd)
 
-
 def main(
     width: int = typer.Option(800, help="Width of the screen"),
     height: int = typer.Option(600, help="Height of the screen"),
@@ -405,12 +406,36 @@ def main(
     )
     bodies = [body1, body2, body3]
 
+    previous_traces = load_trial_data()
+
+    for trace in previous_traces:
+        for point in trace:
+            pygame.draw.circle(screen, (255, 0, 0), (int(point[0]), int(point[1])), 1)
+
+
     # MAIN LOOP
+    playback_index = 0
     running = True
+    
+    for point in trace:
+        pygame.draw.circle(screen, (255, 0, 0), (int(point[0]), int(point[1])), 1)
+    
+    # Inside the main loop
+    if playback_index < len(previous_traces[0]):  # Check if there's more data to play
+        for trace in previous_traces:
+            if playback_index < len(trace):  # Ensure the index is within bounds
+                point = trace[playback_index]
+                pygame.draw.circle(screen, (255, 0, 0), (int(point[0]), int(point[1])), 3)
+
+    # Increment the playback index for the next frame
+    playback_index += 1
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                save_trial_data(bodies)
                 running = False
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if len(bodies) < max_bodies:
                     mouse = pygame.mouse.get_pos()
@@ -426,17 +451,24 @@ def main(
                             screen_width=width,
                         )
                     )
+                    
                 else:
                     logging.warning("You've reached the maximum of bodies!")
 
         screen.fill((0, 0, 0))
 
+        #Update and draw current bodies
         for body in bodies:
             body.calculate_grav_force(bodies, g=g)
             body.draw(screen)
 
         pygame.display.update()
         clock.tick(60)
+
+
+    if event.type == pygame.QUIT:
+        save_trial_data(bodies)
+        running = False
 
     pygame.quit()
     print("Thank you for playing the simulator,we look forward to your return! ")

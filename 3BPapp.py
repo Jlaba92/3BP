@@ -1,4 +1,25 @@
 #Written by Fernando Cortes
+import json
+import os
+
+# Save trial data to a JSON file
+def save_trial_data(bodies, filename="traces.json"):
+    """
+    Saves the current trial data (traces of all bodies) to a file.
+    """
+    traces = [body.trace for body in bodies]
+    with open(filename, "w") as file:
+        json.dump(traces, file)
+
+# Load previous trial data from a JSON file
+def load_trial_data(filename="traces.json"):
+    """
+    Load trial data (traces of previous bodies) from a file.
+    """
+    if os.path.exists(filename):
+        with open(filename, "r") as file:
+            return json.load(file)
+    return []
 
 import pygame
 import math

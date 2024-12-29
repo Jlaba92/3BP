@@ -1,6 +1,13 @@
-#Written by Fernando Cortes
+# Written by Fernando Cortes
+# Modified - Traces by ChatGPT and Joseph LaBarbera
+
 import json
 import os
+import pygame
+import math
+import numpy as np
+import typer
+import logging
 
 # Save trial data to a JSON file
 def save_trial_data(bodies, filename="traces.json"):
@@ -20,13 +27,6 @@ def load_trial_data(filename="traces.json"):
         with open(filename, "r") as file:
             return json.load(file)
     return []
-
-import pygame
-import math
-import numpy as np
-import typer
-import logging
-
 
 COLORS = [
     (217, 237, 146),
